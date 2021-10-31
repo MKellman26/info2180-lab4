@@ -1,5 +1,7 @@
 <?php
 
+$q = strip_tags($_POST['query']);
+
 $superheroes = [
   [
       "id" => 1,
@@ -63,10 +65,28 @@ $superheroes = [
   ], 
 ];
 
+if ($q === ""):
 ?>
+    <ul>
+    <?php foreach ($superheroes as $superhero): ?>
+      <li><?= $superhero['alias']; ?></li>
+    <?php endforeach; ?>
+    </ul>
+<?php
+else:
+    $r = 0;
+    foreach ($superheroes as $superhero):
+        if ($superhero['alias'] === $q or $superhero['name'] === $q):
+            ?><h3><?= $superhero['alias']; ?></h3>
+            <h4><?= $superhero['name']; ?></h4>
+            <p><?= $superhero['biography']; ?></p>
+            <?php $r=1;
+            break;
+        endif;
+    endforeach;
+    if ($r===0):
+        ?> <p id="not_found"> SUPERHERO NOT FOUND </p> <?php
+    endif;
+endif;
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+?>
